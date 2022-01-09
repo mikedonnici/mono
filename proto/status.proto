@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package = "github.com/mikedonnici/mrv/go/statuspb";
+
+package statuspb;
+
+message StatusRequest {}
+
+message StatusResponse {
+  bool healthy = 1;
+}
+
+service StatusService {
+  rpc FetchStatus(StatusRequest) returns (StatusResponse) {};
+}

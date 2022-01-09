@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option go_package = "github.com/mikedonnici/mrv/go/attribute";
+
+package attribute;
+
+// Attribute represents an attribute in its proto message form.
+// This is the shape of the data artifact that will move across the API boundary.
+message Attribute {
+  int64 id = 1;
+  string type = 2;
+  string name = 3;
+}
+
+// FetchAttributeRequest contains one or more fields used for locating an attribute
+message FetchAttributeRequest {
+  optional int64 id = 1;
+  optional string type = 2;
+}
+
+// FetchAttributeResponse is returned
+message FetchAttributeResponse {
+  Attribute attribute = 1;
+}
+
+
+// Separate services for FetchOne and FetchMany ??
+service AttributeService {
+//  rpc AddAttribute(FetchAttributeRequest) returns (FetchAttributeResponse) {};
+  //rpc ChangeAttribute(FetchAttributeRequest) returns (FetchAttributeResponse) {};
+  rpc FetchAttribute(FetchAttributeRequest) returns (FetchAttributeResponse) {};
+  //rpc RemoveAttribute(FetchAttributeRequest) returns (FetchAttributeResponse) {};
+}

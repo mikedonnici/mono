@@ -1,0 +1,35 @@
+MAKE_DIR = $(PWD)
+PROTO_DIR = $(MAKE_DIR)/../proto
+
+# one for each sub dir that has its own makefile
+MRV_GRPC_DIR := $(MAKE_DIR)/cmd/mrv-grpc
+
+# packages - test only
+PKG_DATASTORE_DIR := $(MAKE_DIR)/pkg/datastore
+
+.PHONY: test
+test:
+	@$(MAKE) -C $(MRV_GRPC_DIR) test
+	@$(MAKE) -C $(PKG_DATASTORE_DIR) test
+
+
+.PHONY: build
+build:
+	@$(MAKE) -C $(MRV_GRPC_DIR) build
+
+.PHONY: run
+run:
+	@$(MAKE) -C $(MRV_GRPC_DIR) run
+
+# runs the default target for all the specified sub dir makefiles
+all:
+	@$(MAKE) -C $(MRV_GRPC_DIR)
+
+.PHONY: clean
+clean:
+	@$(MAKE) -C $(MRV_GRPC_DIR) clean
+
+# regenerate all of the proto stuff
+.PHONY: pb
+pb:
+	bash $(PROTO_DIR)/protoc.sh
