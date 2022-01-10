@@ -2,11 +2,11 @@ package main
 
 import (
 	"github.com/mikedonnici/mrv/internal/attribute"
-	"github.com/mikedonnici/mrv/internal/statuspb"
+	"github.com/mikedonnici/mrv/internal/status"
 )
 
 type server struct {
-	statuspb.UnimplementedStatusServiceServer
+	status.UnimplementedStatusServiceServer
 	attribute.UnimplementedAttributeServiceServer
 
 	attributeManager attribute.Manager

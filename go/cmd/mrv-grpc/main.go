@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	"github.com/mikedonnici/mrv/internal/attribute"
-	"github.com/mikedonnici/mrv/internal/statuspb"
+	"github.com/mikedonnici/mrv/internal/status"
 )
 
 func main() {
@@ -59,7 +59,7 @@ func run(ctx context.Context) error {
 	s := grpc.NewServer()
 
 	// Register the GRPC services
-	statuspb.RegisterStatusServiceServer(s, &srvr)
+	status.RegisterStatusServiceServer(s, &srvr)
 	attribute.RegisterAttributeServiceServer(s, &srvr)
 
 	// Register reflection service on gRPC server.
