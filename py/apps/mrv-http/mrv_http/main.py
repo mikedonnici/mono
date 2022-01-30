@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from mrv_http.foo import Foo
 
-from status import status
+from hello_two.hello import say
 
 app = FastAPI()
 
@@ -13,5 +13,5 @@ async def root():
 
     return {
         "message": f.hey(),
-        "lib": status.hello(),
+        "lib": say(),
     }
