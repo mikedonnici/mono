@@ -35,7 +35,7 @@ func NewStatusServiceClient(cc grpc.ClientConnInterface) StatusServiceClient {
 
 func (c *statusServiceClient) FetchStatus(ctx context.Context, in *StatusRequest, opts ...grpc.CallOption) (*StatusResponse, error) {
 	out := new(StatusResponse)
-	err := c.cc.Invoke(ctx, "/statuspb.StatusService/FetchStatus", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/status.StatusService/FetchStatus", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func _StatusService_FetchStatus_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/statuspb.StatusService/FetchStatus",
+		FullMethod: "/status.StatusService/FetchStatus",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StatusServiceServer).FetchStatus(ctx, req.(*StatusRequest))
@@ -92,7 +92,7 @@ func _StatusService_FetchStatus_Handler(srv interface{}, ctx context.Context, de
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var StatusService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "statuspb.StatusService",
+	ServiceName: "status.StatusService",
 	HandlerType: (*StatusServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

@@ -19,4 +19,5 @@ clean:
 	$(GO_MAKE) clean
 
 pb:
-	bash ./proto/protoc.sh $(CURDIR)
+	bash ./proto/protoc-go.sh $(CURDIR)
+	bash ./proto/protoc-py.sh $(CURDIR)

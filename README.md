@@ -1,7 +1,17 @@
 # MRV Monorepo
 
 
-## Setting up
+## Language-specific set up
+
+### Go
+
+- Setting up to compile protobuf and generate gRPC code 
+
+### Python
+
+- [gRPC](./py/README.md#generating-grpc-code) 
+
+
 
 See <https://grpc.io/docs/languages/go/quickstart/>
 
@@ -49,7 +59,11 @@ language dir.
 
 At the project root there is a master `makefile` which can run all the things. 
 
+### Generate gRPC code
 
+```shell
+make pb
+```
 
 
 ## Style Guides
