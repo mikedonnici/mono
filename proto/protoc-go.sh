@@ -9,12 +9,12 @@ fi
 echo "Generating Go proto code - project root: $PROJECT_ROOT"
 
 
-# Note: module=github.com/mikedonnici/mrv/go/... for go_opt and go-grpc_opt are required for
+# Note: module=github.com/mikedonnici/mono/go/... for go_opt and go-grpc_opt are required for
 # outputting the generated code go to a location other than with the .proto files.
-# Without this, the code is generated will the full path prefix github.com/mikedonnici/mrv/go/...
+# Without this, the code is generated will the full path prefix github.com/mikedonnici/mono/go/...
 
 OUT_BASE="$PROJECT_ROOT/go/internal"
-GO_MODULE_PRE="github.com/mikedonnici/mrv/go"
+GO_MODULE_PRE="github.com/mikedonnici/mono/go"
 PROTO_BASE="$PROJECT_ROOT/proto"
 
 # Each of these names should exist in the PROTO_BASE folder as <pkg>.proto

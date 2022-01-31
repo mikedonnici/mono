@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/mikedonnici/mrv/internal/attribute"
-	"github.com/mikedonnici/mrv/internal/status"
+	"github.com/mikedonnici/mono/internal/attribute"
+	"github.com/mikedonnici/mono/internal/status"
 )
 
 type server struct {

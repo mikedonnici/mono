@@ -12,8 +12,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	"github.com/mikedonnici/mrv/internal/attribute"
-	"github.com/mikedonnici/mrv/internal/status"
+	"github.com/mikedonnici/mono/internal/attribute"
+	"github.com/mikedonnici/mono/internal/status"
 )
 
 func main() {

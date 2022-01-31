@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := build
-BINARY_NAME=mrv-grpc
+BINARY_NAME=mono-grpc
 
 fmt:
 	go fmt ./...

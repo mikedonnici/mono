@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from mrv_http.foo import Foo
+from mono_http.foo import Foo
 
 from hello_two.hello import say
 

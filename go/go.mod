@@ -1,4 +1,4 @@
-module github.com/mikedonnici/mrv
+module github.com/mikedonnici/mono
 
 go 1.17
 

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/mikedonnici/mrv/go/attribute";
+option go_package = "github.com/mikedonnici/mono/go/attribute";
 
 package attribute;
 

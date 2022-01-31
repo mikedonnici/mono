@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/mikedonnici/mrv/internal/status"
+	"github.com/mikedonnici/mono/internal/status"
 )
 
 // FetchStatus returns the status of the server

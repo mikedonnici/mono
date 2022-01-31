@@ -17,9 +17,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='attribute.proto',
   package='attribute',
   syntax='proto3',
-  serialized_options=b'Z\'github.com/mikedonnici/mrv/go/attribute',
+  serialized_options=b'Z\'github.com/mikedonnici/mono/go/attribute',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0f\x61ttribute.proto\x12\tattribute\"3\n\tAttribute\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\"K\n\x15\x46\x65tchAttributeRequest\x12\x0f\n\x02id\x18\x01 \x01(\x03H\x00\x88\x01\x01\x12\x11\n\x04type\x18\x02 \x01(\tH\x01\x88\x01\x01\x42\x05\n\x03_idB\x07\n\x05_type\"A\n\x16\x46\x65tchAttributeResponse\x12\'\n\tattribute\x18\x01 \x01(\x0b\x32\x14.attribute.Attribute2k\n\x10\x41ttributeService\x12W\n\x0e\x46\x65tchAttribute\x12 .attribute.FetchAttributeRequest\x1a!.attribute.FetchAttributeResponse\"\x00\x42)Z\'github.com/mikedonnici/mrv/go/attributeb\x06proto3'
+  serialized_pb=b'\n\x0f\x61ttribute.proto\x12\tattribute\"3\n\tAttribute\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\"K\n\x15\x46\x65tchAttributeRequest\x12\x0f\n\x02id\x18\x01 \x01(\x03H\x00\x88\x01\x01\x12\x11\n\x04type\x18\x02 \x01(\tH\x01\x88\x01\x01\x42\x05\n\x03_idB\x07\n\x05_type\"A\n\x16\x46\x65tchAttributeResponse\x12\'\n\tattribute\x18\x01 \x01(\x0b\x32\x14.attribute.Attribute2k\n\x10\x41ttributeService\x12W\n\x0e\x46\x65tchAttribute\x12 .attribute.FetchAttributeRequest\x1a!.attribute.FetchAttributeResponse\"\x00\x42)Z\'github.com/mikedonnici/mono/go/attributeb\x06proto3'
 )
 
 

@@ -3,7 +3,7 @@ package datastore_test
 import (
 	"testing"
 
-	"github.com/mikedonnici/mrv/pkg/datastore"
+	"github.com/mikedonnici/mono/pkg/datastore"
 )
 
 // Each of these platform services should be represented in the

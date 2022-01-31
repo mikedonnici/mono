@@ -23,7 +23,7 @@ type config struct {
 // specified env file(s). Env takes precedence.
 func (c *config) Set(envFiles ...string) error {
 
-	viper.SetEnvPrefix("mrv")
+	viper.SetEnvPrefix("mono")
 	viper.AutomaticEnv()
 
 	for _, envFile := range envFiles {
@@ -56,9 +56,9 @@ func (c *config) Set(envFiles ...string) error {
 
 func (c *config) validate() {
 	if c.ServiceName == "" {
-		c.errors = append(c.errors, fmt.Errorf("MRV_SERVICE_NAME is not set"))
+		c.errors = append(c.errors, fmt.Errorf("mono_SERVICE_NAME is not set"))
 	}
 	if c.MySQLDSN == "" {
-		c.errors = append(c.errors, fmt.Errorf("MRV_MYSQL_DSN is not set"))
+		c.errors = append(c.errors, fmt.Errorf("mono_MYSQL_DSN is not set"))
 	}
 }

@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/mikedonnici/mrv/internal/attribute"
+	"github.com/mikedonnici/mono/internal/attribute"
 )
 
 // FetchAttribute returns a single attribute

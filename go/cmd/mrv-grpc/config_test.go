@@ -10,7 +10,7 @@ import (
 func TestConfig_Set(t *testing.T) {
 
 	f := "temp.env"
-	envPrefix := "MRV"
+	envPrefix := "mono"
 	serviceName := "test service"
 
 	// Write a temp env file with DSN and with a service name

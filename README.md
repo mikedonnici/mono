@@ -1,4 +1,4 @@
-# MRV Monorepo
+# Mono Repo
 
 
 ## Language-specific set up
@@ -47,7 +47,7 @@ export PATH="$PATH:$(go env GOPATH)/bin"
 Required env vars:
 
 ```shell
-MRV_MYSQL_DSN
+MONO_MYSQL_DSN
 ```
 
 ## Makefiles

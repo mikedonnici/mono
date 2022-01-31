@@ -1,4 +1,4 @@
 
 
 run:
-	poetry run uvicorn mrv_http.main:app --reload
+	poetry run uvicorn mono_http.main:app --reload

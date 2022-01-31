@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/mikedonnici/mrv/go/status";
+option go_package = "github.com/mikedonnici/mono/go/status";
 
 package status;
 

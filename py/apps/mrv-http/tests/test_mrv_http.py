@@ -1,4 +1,4 @@
-from mrv_http import __version__
+from mono_http import __version__
 
 
 def test_version():

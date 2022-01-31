@@ -17,9 +17,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='status.proto',
   package='status',
   syntax='proto3',
-  serialized_options=b'Z$github.com/mikedonnici/mrv/go/status',
+  serialized_options=b'Z$github.com/mikedonnici/mono/go/status',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0cstatus.proto\x12\x06status\"\x0f\n\rStatusRequest\"!\n\x0eStatusResponse\x12\x0f\n\x07healthy\x18\x01 \x01(\x08\x32O\n\rStatusService\x12>\n\x0b\x46\x65tchStatus\x12\x15.status.StatusRequest\x1a\x16.status.StatusResponse\"\x00\x42&Z$github.com/mikedonnici/mrv/go/statusb\x06proto3'
+  serialized_pb=b'\n\x0cstatus.proto\x12\x06status\"\x0f\n\rStatusRequest\"!\n\x0eStatusResponse\x12\x0f\n\x07healthy\x18\x01 \x01(\x08\x32O\n\rStatusService\x12>\n\x0b\x46\x65tchStatus\x12\x15.status.StatusRequest\x1a\x16.status.StatusResponse\"\x00\x42&Z$github.com/mikedonnici/mono/go/statusb\x06proto3'
 )
 
 
