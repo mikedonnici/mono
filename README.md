@@ -1,5 +1,12 @@
 # Mono Repo
 
+## Overview
+
+An experimental mono repo for a bunch of related services.
+
+
+![mono](./mono.png)
+
 
 ## Language-specific set up
 
@@ -73,3 +80,22 @@ make pb
 
 ## Testing with `grpcurl`
 
+- If server supports reflection, can list services:
+
+```shell
+grpcurl --plaintext localhost:50051 list
+
+attribute.AttributeService
+grpc.reflection.v1alpha.ServerReflection
+status.StatusService
+```
+
+- Example gRPC request:
+
+```shell
+grpcurl --plaintext localhost:50051 status.StatusService/FetchStatus
+
+{
+  "healthy": true
+}
+```

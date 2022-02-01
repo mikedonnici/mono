@@ -16,7 +16,8 @@ declare -a PackageNames=("attribute" "status")
 
 for pkg in "${PackageNames[@]}"; do
   echo "Generating pkg '$pkg'"
-  OUT="$OUT_BASE/$pkg"
+  # This is just following poetry package/module naming convention - pkg-name/pkg_name
+  OUT="$OUT_BASE"/"$pkg"-grpc/"$pkg"_grpc
   PROTO="$pkg.proto"
   python -m grpc_tools.protoc --python_out="$OUT" --grpc_python_out="$OUT" --proto_path="$PROTO_BASE" "$PROTO"
 done

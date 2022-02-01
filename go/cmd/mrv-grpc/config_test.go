@@ -10,14 +10,12 @@ import (
 func TestConfig_Set(t *testing.T) {
 
 	f := "temp.env"
-	envPrefix := "mono"
+	envPrefix := "MONO"
 	serviceName := "test service"
 
 	// Write a temp env file with DSN and with a service name
 	// env file values will NOT have the prefix
-	envFile :=
-		`MYSQL_DSN=user:pass@tcp(host:port)/dbname
-	     SERVICE_NAME="should come from environment"`
+	envFile := "MYSQL_DSN=user:pass@tcp(host:port)/dbname\nSERVICE_NAME=\"test service\""
 	if err := os.WriteFile(f, []byte(envFile), 0666); err != nil {
 		t.Fatalf("could not create temp env file '%s', err = %s", f, err)
 	}
