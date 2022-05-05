@@ -9,7 +9,7 @@ lint: fmt
 	golangci-lint run --exclude-use-default=false --enable=revive
 .PHONY:lint
 
-vet: fmt
+vet: fmt 
 	go vet ./...
 .PHONY:vet
 

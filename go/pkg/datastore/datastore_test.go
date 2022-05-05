@@ -15,9 +15,10 @@ const (
 	mysqlDSN2    = "root:pass@tcp(localhost:3308)/mysql"
 	postgresDSN1 = "postgres://postgres:postgres@localhost:5433/postgres?sslmode=disable"
 	postgresDSN2 = "postgres://postgres:postgres@localhost:5434/postgres?sslmode=disable"
+	redisDSN     = "redis://:@localhost:6380/0"
 
 	// for all, where relevant
-	timeoutSecs = 5
+	timeoutSecs = 10
 )
 
 func TestPlatform(t *testing.T) {
@@ -26,6 +27,7 @@ func TestPlatform(t *testing.T) {
 		t.Run("testAddMongoConnection", testAddMongoConnection)
 		t.Run("testAddMySQLConnection", testAddMySQLConnection)
 		t.Run("testAddPostgresConnection", testAddPostgresConnection)
+		t.Run("testAddRedisConnection", testAddRedisConnection)
 	})
 }
 
@@ -106,6 +108,29 @@ func testAddPostgresConnection(t *testing.T) {
 	// Check number of connections
 	want := 4
 	got := len(conns.Postgres)
+	if got != want {
+		t.Errorf("Number of connections = %d, want %d", got, want)
+	}
+}
+
+func testAddRedisConnection(t *testing.T) {
+
+	cases := []struct {
+		dsn string
+		key string
+	}{
+		{redisDSN, "redis-1"},
+	}
+	conns := datastore.New()
+	for _, c := range cases {
+		if err := conns.AddRedisConnection(c.key, c.dsn, timeoutSecs); err != nil {
+			t.Fatalf(".AddRedisConnection(%s, %s) err = %s", c.key, c.dsn, err)
+		}
+	}
+
+	// Check number of connections
+	want := 1
+	got := len(conns.Redis) // first conn to first server
 	if got != want {
 		t.Errorf("Number of connections = %d, want %d", got, want)
 	}

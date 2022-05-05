@@ -44,3 +44,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6380:6379
+

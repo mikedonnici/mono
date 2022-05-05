@@ -11,6 +11,7 @@ type Connections struct {
 	Mongo    map[string]*mongoConnection
 	MySQL    map[string]*mysqlConnection
 	Postgres map[string]*postgresConnection
+	Redis    map[string]*redisConnection
 }
 
 // New returns a pointer to a Connections value no connections attached.
@@ -19,6 +20,7 @@ func New() *Connections {
 		Mongo:    make(map[string]*mongoConnection),
 		MySQL:    make(map[string]*mysqlConnection),
 		Postgres: make(map[string]*postgresConnection),
+		Redis:    make(map[string]*redisConnection),
 	}
 }
 
@@ -119,4 +121,37 @@ func (mc *Connections) OnlyPostgresConnection() (*postgresConnection, error) {
 		key = k
 	}
 	return mc.Postgres[key], nil
+}
+
+// AddRedisConnection adds a connection to a redis database identified by the specified key.
+func (mc *Connections) AddRedisConnection(key, dsn string, timeoutSeconds int) error {
+	log.Printf("Adding REDIS connection: key = '%s'", key)
+	c, err := connectRedis(dsn, timeoutSeconds)
+	if err != nil {
+		return fmt.Errorf("could not connect to Redis, err = %w", err)
+	}
+	mc.Redis[key] = c
+	return nil
+}
+
+// RedisConnByKey returns the Redis connection value at the specified key.
+func (mc *Connections) RedisConnByKey(key string) (*redisConnection, error) {
+	c, ok := mc.Redis[key]
+	if !ok {
+		return nil, fmt.Errorf("no Redisdb connection with key = %s", key)
+	}
+	return c, nil
+}
+
+// OnlyRedisConnection is a convenience function that returns the Redis connection if there is only one.
+func (mc *Connections) OnlyRedisConnection() (*redisConnection, error) {
+	num := len(mc.Redis)
+	if num != 1 {
+		return nil, fmt.Errorf("cannot return unique Redis connection as %d exist", num)
+	}
+	var key string
+	for k := range mc.Redis {
+		key = k
+	}
+	return mc.Redis[key], nil
 }

@@ -46,3 +46,20 @@ func (c *postgresConnection) Check() error {
 	var tmp bool
 	return c.DB.QueryRow(`SELECT true`).Scan(&tmp)
 }
+
+// connectRedis returns a redis connection or an error.
+func connectRedis(dsn string, timeoutSeconds int) (*redisConnection, error) {
+	return newRedisConnection(dsn, timeoutSeconds)
+}
+
+//// open returns a connection to the database or an error.
+//func (c *postgresConnection) open() (*sql.DB, error) {
+//	return sql.Open("postgres", c.DSN)
+//}
+//
+//// Check verifies the connection to the database and returns an error if there's a problem.
+//// Note: This is better than ping because it forces a round trip to the database.
+//func (c *postgresConnection) Check() error {
+//	var tmp bool
+//	return c.DB.QueryRow(`SELECT true`).Scan(&tmp)
+//}
