@@ -15,15 +15,20 @@ import (
 
 func main() {
 
-	if err := run(); err != nil {
+	var cfg config
+	if err := cfg.Set(); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := run(cfg); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func run() error {
+func run(cfg config) error {
 
 	var (
-		port = flag.Int("port", 50051, "The server port")
+		port = flag.Int("port", cfg.grpcPort, "The server port")
 	)
 	flag.Parse()
 	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", *port))
@@ -31,9 +36,8 @@ func run() error {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	var srvr server
-
 	// Server
+	var srvr server
 	s := grpc.NewServer()
 
 	// Register the GRPC services
@@ -48,7 +52,7 @@ func run() error {
 		return fmt.Errorf("could not attach data managers: %w", err)
 	}
 
-	log.Printf("server listening at %v", lis.Addr())
+	log.Printf("grpc-srvr listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		return fmt.Errorf("could not listen: %w", err)
 	}
