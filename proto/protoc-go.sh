@@ -25,5 +25,5 @@ for pkg in "${PackageNames[@]}"; do
   OUT="$OUT_BASE/$pkg"
   OPT="module=$GO_MODULE_PRE/$pkg"
   PROTO="$pkg.proto"
-  protoc --go_out="$OUT" --go-grpc_out="$OUT" --go_opt="$OPT" --go-grpc_opt="$OPT" --proto_path="$PROTO_BASE" "$PROTO"
+  protoc --go_out="$OUT" --go-grpc_out="$OUT" --go_opt="$OPT" --go-grpc_opt="$OPT" --proto_path="$PROTO_BASE" "$PROTO" --experimental_allow_proto3_optional
 done
