@@ -17,7 +17,7 @@ vet: fmt
 test: vet
 	go test -v ./...
 
-build: test
+build:
 	go build -o ${BINARY_NAME} ./...
 .PHONY:build
 
@@ -26,4 +26,10 @@ run: build
 
 clean:
 	go clean
+
+# shortcuts
+run-sample: build
+	./${BINARY_NAME} -cfg testdata/sample.cfg
+
+test-run-sample: test run-sample
 

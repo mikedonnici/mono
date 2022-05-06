@@ -22,10 +22,10 @@ export MONO_SERVICE_NAME="My Service"
 
 ## Running
 
-- Start with make (ARGS are used to pass cfg file path):
+- Start with make, use `ARGS=...` to pass cfg file flag, eg:
 
 ```shell
-make run ARGS="-cfg sample.cfg"
+make run ARGS="-cfg testdata/sample.cfg"
 ```
 
 
