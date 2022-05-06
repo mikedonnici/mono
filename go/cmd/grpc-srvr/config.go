@@ -20,11 +20,11 @@ type config struct {
 	errors      []error
 }
 
-// Set populates the config value with vars located in the env, or in the specified env file(s).
-// Env takes precedence.
-func (c *config) Set(envFiles ...string) error {
+// Set populates the config value with vars located in the env, or in the specified env file(s) - env takes precedence
+// Override prefix for tests so real env does not create issues.
+func (c *config) Set(prefix string, envFiles ...string) error {
 
-	viper.SetEnvPrefix("mono")
+	viper.SetEnvPrefix(prefix)
 	viper.AutomaticEnv()
 
 	for _, envFile := range envFiles {
@@ -38,12 +38,11 @@ func (c *config) Set(envFiles ...string) error {
 	}
 
 	// These .Get calls trigger .AutomaticEnv() which should fetch a value from the environment, if it exists.
-	// An env var will take precedence over values from an env file.
+	// An env var has precedence over values from env/cfg files and env vars are expected to have the prefix.
 	c.grpcPort = viper.GetInt("GRPC_PORT")
 	c.serviceName = viper.GetString("SERVICE_NAME")
 	c.mysqlDSN = viper.GetString("MYSQL_DSN")
 
-	// Validate
 	c.validate()
 	if len(c.errors) > 0 {
 		var msg string

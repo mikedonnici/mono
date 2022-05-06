@@ -10,7 +10,7 @@ import (
 func TestConfig_Set(t *testing.T) {
 
 	f := "temp.env"
-	envPrefix := "MONO"
+	envPrefix := "MONOTEST"
 	serviceName := "value from env"
 
 	// Write a temp env file with DSN and with a service name
@@ -27,7 +27,7 @@ func TestConfig_Set(t *testing.T) {
 	}
 
 	var cfg config
-	if err := cfg.Set(f); err != nil {
+	if err := cfg.Set(envPrefix, f); err != nil {
 		t.Fatalf(".Set() err = %s", err)
 	}
 	want := config{

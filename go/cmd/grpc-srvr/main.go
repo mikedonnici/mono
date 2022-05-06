@@ -16,7 +16,10 @@ import (
 func main() {
 
 	var cfg config
-	if err := cfg.Set(); err != nil {
+	cfgFile := flag.String("cfg", "", "(optional) path to config file")
+	flag.Parse()
+	xf := []string{*cfgFile}
+	if err := cfg.Set("mono", xf...); err != nil {
 		log.Fatal(err)
 	}
 
@@ -27,11 +30,7 @@ func main() {
 
 func run(cfg config) error {
 
-	var (
-		port = flag.Int("port", cfg.grpcPort, "The server port")
-	)
-	flag.Parse()
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", *port))
+	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", cfg.grpcPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -52,7 +51,11 @@ func run(cfg config) error {
 		return fmt.Errorf("could not attach data managers: %w", err)
 	}
 
-	log.Printf("grpc-srvr listening at %v", lis.Addr())
+	sn := "grpc-srvr"
+	if cfg.serviceName != "" {
+		sn = cfg.serviceName
+	}
+	log.Printf("%s listening at %v", sn, lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		return fmt.Errorf("could not listen: %w", err)
 	}

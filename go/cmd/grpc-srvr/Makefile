@@ -22,7 +22,7 @@ build: test
 .PHONY:build
 
 run: build
-	./${BINARY_NAME}
+	./${BINARY_NAME} $(ARGS)
 
 clean:
 	go clean
