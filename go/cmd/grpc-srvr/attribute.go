@@ -15,7 +15,8 @@ func (s *server) FetchAttribute(ctx context.Context, in *attribute.FetchAttribut
 	if err != nil {
 		return nil, err
 	}
+	raw := a.Raw()
 	return &attribute.FetchAttributeResponse{
-		Attribute: &a,
+		Attribute: &raw,
 	}, nil
 }

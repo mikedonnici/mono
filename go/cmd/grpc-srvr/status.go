@@ -7,8 +7,10 @@ import (
 	"github.com/mikedonnici/mono/internal/status"
 )
 
-// FetchStatus returns the status of the server
+// FetchStatus returns the status of the service including connections to all data sources.
 func (s *server) FetchStatus(ctx context.Context, in *status.StatusRequest) (*status.StatusResponse, error) {
-	log.Printf("Check status")
+
+	log.Printf("Fetch status")
+
 	return &status.StatusResponse{Healthy: true}, nil
 }

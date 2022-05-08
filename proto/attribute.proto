@@ -6,7 +6,7 @@ package attribute;
 
 // Attribute represents an attribute in its proto message form.
 // This is the shape of the data artifact that will move across the API boundary.
-message Attribute {
+message AttributeRaw {
   int64 id = 1;
   string type = 2;
   string name = 3;
@@ -20,7 +20,7 @@ message FetchAttributeRequest {
 
 // FetchAttributeResponse is returned
 message FetchAttributeResponse {
-  Attribute attribute = 1;
+  AttributeRaw attribute = 1;
 }
 
 

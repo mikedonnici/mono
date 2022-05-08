@@ -10,9 +10,5 @@ type server struct {
 	attribute.UnimplementedAttributeServiceServer
 
 	attributeManager attribute.Manager
-}
-
-func (s *server) attachDataManagers() error {
-	s.attributeManager = attribute.Manager{}
-	return nil
+	statusManager    status.Manager
 }
