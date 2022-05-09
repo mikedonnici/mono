@@ -1,6 +1,13 @@
 package attribute
 
-import "github.com/mikedonnici/mono/pkg/datastore"
+import (
+	"context"
+	"database/sql"
+	"fmt"
+	"log"
+
+	"github.com/mikedonnici/mono/pkg/datastore"
+)
 
 // Manager implements the DataManager interface
 type Manager struct {
@@ -27,14 +34,25 @@ func NewManager(store datastore.Connections) Manager {
 }
 
 // AttributeByID fetches an attribute by id.
-func (m Manager) AttributeByID(id int64) (Attribute, error) {
+func (m Manager) AttributeByID(ctx context.Context, id int64) (*Attribute, error) {
 
-	d := Attribute{
-		ID:   id,
-		Type: "ABC-123",
-		Name: "The ABC Type",
+	db, err := m.store.OnlyMySQLConnection()
+	if err != nil {
+		return nil, fmt.Errorf("conn err = %w", err)
 	}
-	return d, nil
+
+	var d Attribute
+	q := "SELECT id, type, name FROM attribute WHERE id = ?"
+	err = db.QueryRowContext(ctx, q, id).Scan(&d.ID, &d.Type, &d.Name)
+	switch {
+	case err == sql.ErrNoRows:
+		return nil, fmt.Errorf("no attribute with id %dn", id)
+	case err != nil:
+		return nil, fmt.Errorf("query error: %v", err)
+	default:
+		log.Printf("found attribute with id %d", id)
+	}
+	return &d, nil
 }
 
 func (m Manager) Create() {

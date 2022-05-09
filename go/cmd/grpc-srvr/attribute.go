@@ -11,7 +11,7 @@ import (
 func (s *server) FetchAttribute(ctx context.Context, in *attribute.FetchAttributeRequest) (*attribute.FetchAttributeResponse, error) {
 	log.Printf("Fetch attribute...")
 
-	a, err := s.attributeManager.AttributeByID(*in.Id)
+	a, err := s.attributeManager.AttributeByID(ctx, *in.Id)
 	if err != nil {
 		return nil, err
 	}

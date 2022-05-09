@@ -77,9 +77,17 @@ make pb
 
 - [Protocol Buffers Files](https://developers.google.com/protocol-buffers/docs/style)
 
+## Running
 
-## Testing with `grpcurl`
+- Run stack with `docker-compose`
 
+```shell
+docker-compose up --build
+```
+
+## Query GRPC Server
+
+- Can query `grpc-srvr` from command line with [grpccurl](https://github.com/fullstorydev/grpcurl)
 - If server supports reflection, can list services:
 
 ```shell
@@ -90,7 +98,7 @@ grpc.reflection.v1alpha.ServerReflection
 status.StatusService
 ```
 
-- Example gRPC request:
+- Example gRPC requests:
 
 ```shell
 grpcurl --plaintext localhost:50051 status.StatusService/FetchStatus
@@ -99,3 +107,32 @@ grpcurl --plaintext localhost:50051 status.StatusService/FetchStatus
   "healthy": true
 }
 ```
+
+```shell
+grpcurl -d '{"id": 1}' -plaintext localhost:50051 attribute.AttributeService.FetchAttribute
+
+{
+  "attribute": {
+    "id": "1",
+    "type": "visual",
+    "name": "colour"
+  }
+}
+```
+
+MySQL Seed Data
+
+```sql
+create schema mono;
+create table attribute
+(
+    id   int auto_increment primary key,
+    type varchar(255) not null,
+    name varchar(255) not null,
+    constraint attribute_name_uindex unique (name)
+);
+INSERT INTO attribute (id, type, name) VALUES (1, 'visual', 'colour');
+INSERT INTO attribute (id, type, name) VALUES (2, 'measurement', 'height');
+INSERT INTO attribute (id, type, name) VALUES (3, 'measurement', 'weight');
+```
+
