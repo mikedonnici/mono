@@ -1,0 +1,12 @@
+FROM golang:1.18 AS builder
+
+WORKDIR /src
+COPY ./go ./
+RUN go mod download
+RUN go mod verify
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /bin/grpc-srvr ./cmd/grpc-srvr/...
+#CMD ["tail", "-f", "/dev/null"]
+
+FROM scratch
+COPY --from=builder /bin/grpc-srvr /
+CMD ["/grpc-srvr"]

@@ -37,7 +37,7 @@ func main() {
 
 func run(cfg config) error {
 
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", cfg.grpcPort))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", cfg.grpcPort))
 	if err != nil {
 		return fmt.Errorf("failed to listen: %v", err)
 	}
