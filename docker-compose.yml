@@ -12,7 +12,10 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - 3307:3306
+    volumes:
+      - ./data/mysql-seed.sql:/docker-entrypoint-initdb.d/mysql-seed.sql
     environment:
+      MYSQL_DATABASE: mono
       MYSQL_ROOT_PASSWORD: pass
 
   postgres:
