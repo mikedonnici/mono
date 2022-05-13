@@ -32,14 +32,15 @@ jobs:
 
       - name: Build and Push Container
         run: |-
-#          docker build -f ./Dockerfile.grpc-srvr -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }} .
-#          docker tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }} gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
-#          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }}
-#          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
           docker build -f ./Dockerfile.grpc-srvr -t australia-southeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }} .
           docker tag australia-southeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }} gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
           docker push australia-southeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }}    
           docker push australia-southeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
+
+#          docker build -f ./Dockerfile.grpc-srvr -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }} .
+#          docker tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }} gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
+#          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }}
+#          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
 
 #      #        uses: google-github-actions/setup-gcloud@master
 #      #        with:
