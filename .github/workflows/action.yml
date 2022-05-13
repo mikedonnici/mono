@@ -22,14 +22,13 @@ jobs:
         with:
           credentials_json: ${{ secrets.SERVICE_ACCOUNT_KEY }}
 
-      # Alternative option - authentication via credentials json
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
       - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v0
+        uses: google-github-actions/setup-gcloud@v0
 
       - name: Authorize Docker push
         run: gcloud auth configure-docker
