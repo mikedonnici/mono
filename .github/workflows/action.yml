@@ -6,6 +6,7 @@ on:
       - 'main'
 
 env:
+  GAR_URL: australia-southeast1-docker.pkg.dev
   IMAGE_NAME: mono-grpc-srvr
   PROJECT_ID: mono-346800
 
@@ -31,36 +32,11 @@ jobs:
           gcloud auth configure-docker australia-southeast1-docker.pkg.dev
 
       - name: Build and Push Container
+        env:
+          IMAGE_SHA: ${{ GAR_URL }}/${{ env.PROJECT_ID }}/mono/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          IMAGE_LATEST: ${{ GAR_URL }}/${{ env.PROJECT_ID }}/mono/${{ env.IMAGE_NAME }}:latest
         run: |-
-          docker build -f ./Dockerfile.grpc-srvr -t australia-southeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/mono/${{ env.IMAGE_NAME }}:${{  github.sha }} .
-          docker tag australia-southeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/mono/${{ env.IMAGE_NAME }}:${{  github.sha }} gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
-          docker push australia-southeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/mono/${{ env.IMAGE_NAME }}:${{  github.sha }}    
-          docker push australia-southeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/mono/${{ env.IMAGE_NAME }}:latest
-
-#          docker build -f ./Dockerfile.grpc-srvr -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }} .
-#          docker tag gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }} gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
-#          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{  github.sha }}
-#          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
-
-#      #        uses: google-github-actions/setup-gcloud@master
-#      #        with:
-#      #          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-#      #          project_id: ${{ env.PROJECT_ID }}
-#      #          export_default_credentials: true
-#      #      -
-#
-#      - name: Build Docker Image
-#        run: docker build -f Dockerfile.grpc-srvr -t $IMAGE_NAME:latest .
-#
-#      - name: Configure Docker Client
-#        run: |-
-#          gcloud auth configure-docker --quiet
-#
-#      - name: Push Docker Image to GCR
-#        env:
-#          GIT_TAG: v0.10
-#        run: |-
-#          docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
-#          docker tag gcr.io/$PROJECT_ID/$IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:$GIT_TAG
-#          docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
-#          docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:$GIT_TAG
+          docker build -f ./Dockerfile.grpc-srvr -t $IMAGE_SHA .
+          docker tag $IMAGE_SHA $IMAGE_LATEST
+          docker push $IMAGE_SHA    
+          docker push $IMAGE_LATEST

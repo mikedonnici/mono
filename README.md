@@ -132,6 +132,10 @@ grpcurl -d '{"id": 1}' -plaintext localhost:50051 attribute.AttributeService.Fet
 - [ ] Add db connectors
 - [ ] Dockerise
 - [ ] GitHub actions to test and build images
-- [ ] Deploy to GCP
+- [ ] Publish to Google Artifacts Registry
+- [ ] Trigger publish on tags, name images with semver tags
+- [ ] Deploy working app to cloud run from github actions
+- [ ] Trigger dev deploy on main PR
+- [ ] Trigger qa deploy on semver tags
 - 
 
