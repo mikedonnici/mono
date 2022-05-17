@@ -6,9 +6,10 @@ on:
       - 'main'
 
 env:
+  PROJECT_ID: mono-346800
   GAR_URL: australia-southeast1-docker.pkg.dev
   GAR_REPO: mono
-  PROJECT_ID: mono-346800
+  IMAGE_NAME: grpc-srvr
 
 jobs:
   build-and-push-gar:
@@ -33,9 +34,11 @@ jobs:
 
       - name: Build and Push Container
         env:
-          IMAGE_SHA: ${{ env.GAR_URL }}/${{ env.PROJECT_ID }}/{{ env.GAR_REPO }}/grpc-srvr:${{ github.sha }}
-          IMAGE_LATEST: ${{ env.GAR_URL }}/${{ env.PROJECT_ID }}/{{ env.GAR_REPO }}/grpc-srvr:latest
+          IMAGE_SHA: ${{ env.GAR_URL }}/${{ env.PROJECT_ID }}/${{ env.GAR_REPO }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          IMAGE_LATEST: ${{ env.GAR_URL }}/${{ env.PROJECT_ID }}/${{ env.GAR_REPO }}/${{ env.IMAGE_NAME }}:latest
         run: |-
+          echo IMAGE_SHA=$IMAGE_SHA
+          echo IMAGE_LATEST=$IMAGE_LATEST
           docker build -f ./Dockerfile.grpc-srvr -t $IMAGE_SHA .
           docker tag $IMAGE_SHA $IMAGE_LATEST
           docker push $IMAGE_SHA    
