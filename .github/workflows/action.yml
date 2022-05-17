@@ -7,12 +7,12 @@ on:
 
 env:
   GAR_URL: australia-southeast1-docker.pkg.dev
-  IMAGE_NAME: mono-grpc-srvr
+  GAR_REPO: mono
   PROJECT_ID: mono-346800
 
 jobs:
-  build-and-push-gcr:
-    name: Build and Push to GCR
+  build-and-push-gar:
+    name: Build and Push to GAR
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,8 +33,8 @@ jobs:
 
       - name: Build and Push Container
         env:
-          IMAGE_SHA: ${{ env.GAR_URL }}/${{ env.PROJECT_ID }}/mono/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          IMAGE_LATEST: ${{ env.GAR_URL }}/${{ env.PROJECT_ID }}/mono/${{ env.IMAGE_NAME }}:latest
+          IMAGE_SHA: ${{ env.GAR_URL }}/${{ env.PROJECT_ID }}/{{ env.GAR_REPO }}/grpc-srvr:${{ github.sha }}
+          IMAGE_LATEST: ${{ env.GAR_URL }}/${{ env.PROJECT_ID }}/{{ env.GAR_REPO }}/grpc-srvr:latest
         run: |-
           docker build -f ./Dockerfile.grpc-srvr -t $IMAGE_SHA .
           docker tag $IMAGE_SHA $IMAGE_LATEST
