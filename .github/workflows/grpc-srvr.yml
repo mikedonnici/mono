@@ -1,9 +1,11 @@
-name: ci
+name: ci-grpc-srvr
 
 on:
   push:
     branches:
       - 'main'
+    paths:
+      - 'go/**'
 
 env:
   PROJECT_ID: mono-346800

@@ -17,7 +17,7 @@ vet: fmt
 test: vet
 	go test -v ./...
 
-build:
+build: vet
 	go build -o ${BINARY_NAME} ./...
 .PHONY:build
 

@@ -25,7 +25,7 @@ func TestConfig_Set(t *testing.T) {
 	want := config{
 		grpcPort:    50051,
 		mongoDSN:    "mongodb://localhost:27018",
-		mysqlDSN:    "mysql://root:pass@localhost:3307/test",
+		mysqlDSN:    "root:pass@tcp(localhost:3307)/test",
 		postgresDSN: "postgres://postgres:postgres@localhost:5433/postgres?sslmode=disable",
 		redisDSN:    "redis://:@localhost:6380/0",
 		serviceName: envServiceName,
