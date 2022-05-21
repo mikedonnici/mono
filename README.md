@@ -4,21 +4,17 @@
 
 An experimental mono repo for a bunch of related services.
 
-
 ![mono](./mono.png)
-
 
 ## Language-specific set up
 
 ### Go
 
-- Setting up to compile protobuf and generate gRPC code 
+- Setting up to compile protobuf and generate gRPC code
 
 ### Python
 
-- [gRPC](./py/README.md#generating-grpc-code) 
-
-
+- [gRPC](./py/README.md#generating-grpc-code)
 
 See <https://grpc.io/docs/languages/go/quickstart/>
 
@@ -43,7 +39,7 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 ```
 
-- Ensure go path 
+- Ensure go path
 
 ```shell
 export PATH="$PATH:$(go env GOPATH)/bin"
@@ -61,17 +57,16 @@ MONO_MYSQL_DSN
 
 Each package or module, that can be individually tested or built, should have its own `makefile`.
 
-In the root of each language dir there is a language `makefile` that can trigger processes for projects within that 
+In the root of each language dir there is a language `makefile` that can trigger processes for projects within that
 language dir.
 
-At the project root there is a master `makefile` which can run all the things. 
+At the project root there is a master `makefile` which can run all the things.
 
 ### Generate gRPC code
 
 ```shell
 make pb
 ```
-
 
 ## Style Guides
 
@@ -126,16 +121,35 @@ grpcurl -d '{"id": 1}' -plaintext localhost:50051 attribute.AttributeService.Fet
 }
 ```
 
-## Todo 
+## CI / CD
 
-- [ ] Set up basic structure
-- [ ] Add db connectors
-- [ ] Dockerise
-- [ ] GitHub actions to test and build images
-- [ ] Publish to Google Artifacts Registry
-- [ ] Trigger publish on tags, name images with semver tags
+There are infinite ways to do CI/CD, so these are ideas for using GitHub actions and GCP.
+
+- Short-lived branches, `main` is always deployable
+- Push to `main` triggers deployment to `dev` environment
+- `qa` and `prod` tags trigger deployment to respective environments [WIP]
+- Semver _could_ be used for entire repo, to signify releases, but is useless for individual projects
+
+### CI and Images
+
+- Individual projects are published to Google Artifact Registry and the trigger can be restricted to changes `paths`
+  relevant to each project
+- Only `main` branches are built and published (for now) and images tagged with git sha as well as `latest`
+
+### Deployment
+
+- All updates to `main` should be deployed immediately to `dev`, which is always using `latest` images.
+- Other deployments are triggered with tags [WIP]
+
+## Todo
+
+- [x] Set up basic structure
+- [x] Add db connectors
+- [x] Docker and compose
+- [x] GitHub actions to test and build images
+- [x] Publish to Google Artifacts Registry
+- [ ] Deploy on update to main branch
 - [ ] Deploy working app to cloud run from github actions
 - [ ] Trigger dev deploy on main PR
-- [ ] Trigger qa deploy on semver tags
-- 
+- [ ] Trigger qa deploy on tag
 

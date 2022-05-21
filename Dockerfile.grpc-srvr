@@ -4,11 +4,11 @@ WORKDIR /src
 COPY ./go ./
 RUN go mod download
 RUN go mod verify
+#CMD ["tail", "-f", "/dev/null"]
 
 WORKDIR /src/cmd/grpc-srvr
 RUN go test ./...
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /bin/grpc-srvr ./...
-#CMD ["tail", "-f", "/dev/null"]
 
 FROM scratch
 COPY --from=builder /bin/grpc-srvr /
