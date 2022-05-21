@@ -1,0 +1,17 @@
+name: deploy-dev
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy-to-dev:
+    name: Deploy to DEV
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: |
+          echo 'Deploying latest to dev'
+          
