@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+//option go_package = "github.com/mikedonnici/mono/go/status";
+
+package status.v1;
+
+message FetchStatusRequest {}
+
+message FetchStatusResponse {
+  bool healthy = 1;
+  string message = 2;
+}
+
+service StatusService {
+  rpc FetchStatus(FetchStatusRequest) returns (FetchStatusResponse) {};
+}

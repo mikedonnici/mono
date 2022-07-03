@@ -9,6 +9,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
+	attributev1 "github.com/mikedonnici/mono/gen/attribute/v1"
+	statusv1 "github.com/mikedonnici/mono/gen/status/v1"
 	"github.com/mikedonnici/mono/internal/attribute"
 	"github.com/mikedonnici/mono/internal/status"
 	"github.com/mikedonnici/mono/pkg/datastore"
@@ -62,8 +64,8 @@ func run(cfg config) error {
 	s := grpc.NewServer()
 
 	// Register the GRPC services
-	attribute.RegisterAttributeServiceServer(s, &srvr)
-	status.RegisterStatusServiceServer(s, &srvr)
+	attributev1.RegisterAttributeServiceServer(s, &srvr)
+	statusv1.RegisterStatusServiceServer(s, &srvr)
 
 	// Register reflection service on gRPC server.
 	reflection.Register(s)

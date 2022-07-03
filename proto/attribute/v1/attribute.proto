@@ -1,12 +1,10 @@
 syntax = "proto3";
 
-option go_package = "github.com/mikedonnici/mono/go/attribute";
+package attribute.v1;
 
-package attribute;
-
-// Attribute represents an attribute in its proto message form.
+// AttributeMessage represents an attribute in its proto message form.
 // This is the shape of the data artifact that will move across the API boundary.
-message AttributeRaw {
+message AttributeMessage {
   int64 id = 1;
   string type = 2;
   string name = 3;
@@ -20,7 +18,7 @@ message FetchAttributeRequest {
 
 // FetchAttributeResponse is returned
 message FetchAttributeResponse {
-  AttributeRaw attribute = 1;
+  AttributeMessage attribute = 1;
 }
 
 
