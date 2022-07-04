@@ -2,7 +2,7 @@
 name = "mono-http"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Mike Donnici <michael.donnici@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -10,8 +10,8 @@ fastapi = "^0.73.0"
 uvicorn = "^0.17.0"
 grpcio = "^1.43.0"
 
-attribute-grpc = { path = "../../pkg/attribute-grpc" }
-status-grpc = { path = "../../pkg/status-grpc" }
+attributev1 = { path = "../../pkg/attributev1" }
+statusv1 = { path = "../../pkg/statusv1" }
 protobuf = "^3.19.4"
 
 

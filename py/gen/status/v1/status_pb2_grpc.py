@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import status_pb2 as status__pb2
+from status.v1 import status_pb2 as status_dot_v1_dot_status__pb2
 
 
 class StatusServiceStub(object):
@@ -15,9 +15,9 @@ class StatusServiceStub(object):
             channel: A grpc.Channel.
         """
         self.FetchStatus = channel.unary_unary(
-                '/status.StatusService/FetchStatus',
-                request_serializer=status__pb2.StatusRequest.SerializeToString,
-                response_deserializer=status__pb2.StatusResponse.FromString,
+                '/status.v1.StatusService/FetchStatus',
+                request_serializer=status_dot_v1_dot_status__pb2.FetchStatusRequest.SerializeToString,
+                response_deserializer=status_dot_v1_dot_status__pb2.FetchStatusResponse.FromString,
                 )
 
 
@@ -35,12 +35,12 @@ def add_StatusServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'FetchStatus': grpc.unary_unary_rpc_method_handler(
                     servicer.FetchStatus,
-                    request_deserializer=status__pb2.StatusRequest.FromString,
-                    response_serializer=status__pb2.StatusResponse.SerializeToString,
+                    request_deserializer=status_dot_v1_dot_status__pb2.FetchStatusRequest.FromString,
+                    response_serializer=status_dot_v1_dot_status__pb2.FetchStatusResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'status.StatusService', rpc_method_handlers)
+            'status.v1.StatusService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -59,8 +59,8 @@ class StatusService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/status.StatusService/FetchStatus',
-            status__pb2.StatusRequest.SerializeToString,
-            status__pb2.StatusResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/status.v1.StatusService/FetchStatus',
+            status_dot_v1_dot_status__pb2.FetchStatusRequest.SerializeToString,
+            status_dot_v1_dot_status__pb2.FetchStatusResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

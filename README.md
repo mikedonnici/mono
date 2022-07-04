@@ -6,6 +6,25 @@ An experimental mono repo for a bunch of related services.
 
 ![mono](./mono.png)
 
+## Directory structure
+
+```
+/
+├── data
+├── go             <-- go code root
+│   ├── cmd        <-- go packages that are executable
+│   ├── gen        <-- generated proto code
+│   ├── internal   <-- private packages
+│   └── pkg        <-- other packages (??)
+│ 
+├── proto          <-- proto source files
+│
+└── py             <-- python code root
+    ├── apps       <-- python applications
+    ├── gen        <-- generated proto code         
+    └── pkg        <-- shared python packages (target for generated code)
+```
+
 ## Language-specific set up
 
 ### Go

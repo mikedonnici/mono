@@ -1,8 +1,8 @@
 import grpc
 from fastapi import FastAPI, HTTPException
 
-import status_grpc.status_pb2
-import status_grpc.status_pb2_grpc
+import statusv1.status_pb2
+import statusv1.status_pb2_grpc
 
 app = FastAPI()
 
@@ -10,8 +10,8 @@ app = FastAPI()
 @app.get("/")
 async def root():
     channel = grpc.insecure_channel('localhost:50051')
-    stub = status_grpc.status_pb2_grpc.StatusServiceStub(channel)
-    req = status_grpc.status_pb2.StatusRequest()
+    stub = statusv1.status_pb2_grpc.StatusServiceStub(channel)
+    req = statusv1.status_pb2.FetchStatusRequest()
     try:
         res = stub.FetchStatus(req)
     except Exception as e:

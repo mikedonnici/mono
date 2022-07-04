@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import attribute_pb2 as attribute__pb2
+from attribute.v1 import attribute_pb2 as attribute_dot_v1_dot_attribute__pb2
 
 
 class AttributeServiceStub(object):
@@ -16,9 +16,9 @@ class AttributeServiceStub(object):
             channel: A grpc.Channel.
         """
         self.FetchAttribute = channel.unary_unary(
-                '/attribute.AttributeService/FetchAttribute',
-                request_serializer=attribute__pb2.FetchAttributeRequest.SerializeToString,
-                response_deserializer=attribute__pb2.FetchAttributeResponse.FromString,
+                '/attribute.v1.AttributeService/FetchAttribute',
+                request_serializer=attribute_dot_v1_dot_attribute__pb2.FetchAttributeRequest.SerializeToString,
+                response_deserializer=attribute_dot_v1_dot_attribute__pb2.FetchAttributeResponse.FromString,
                 )
 
 
@@ -39,12 +39,12 @@ def add_AttributeServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'FetchAttribute': grpc.unary_unary_rpc_method_handler(
                     servicer.FetchAttribute,
-                    request_deserializer=attribute__pb2.FetchAttributeRequest.FromString,
-                    response_serializer=attribute__pb2.FetchAttributeResponse.SerializeToString,
+                    request_deserializer=attribute_dot_v1_dot_attribute__pb2.FetchAttributeRequest.FromString,
+                    response_serializer=attribute_dot_v1_dot_attribute__pb2.FetchAttributeResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'attribute.AttributeService', rpc_method_handlers)
+            'attribute.v1.AttributeService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -64,8 +64,8 @@ class AttributeService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/attribute.AttributeService/FetchAttribute',
-            attribute__pb2.FetchAttributeRequest.SerializeToString,
-            attribute__pb2.FetchAttributeResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/attribute.v1.AttributeService/FetchAttribute',
+            attribute_dot_v1_dot_attribute__pb2.FetchAttributeRequest.SerializeToString,
+            attribute_dot_v1_dot_attribute__pb2.FetchAttributeResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

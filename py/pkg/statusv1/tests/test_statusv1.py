@@ -1,4 +1,4 @@
-from status_grpc import __version__
+from statusv1 import __version__
 
 
 def test_version():

@@ -1,4 +1,4 @@
-from attribute_grpc import __version__
+from attributev1 import __version__
 
 
 def test_version():
