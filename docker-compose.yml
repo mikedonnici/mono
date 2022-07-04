@@ -11,7 +11,7 @@ services:
     restart: always
     command: --default-authentication-plugin=mysql_native_password
     ports:
-      - 3307:3306
+      - "3306/tcp"
     volumes:
       - ./data/mysql-seed.sql:/docker-entrypoint-initdb.d/mysql-seed.sql
     environment:
