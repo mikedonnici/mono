@@ -37,7 +37,7 @@ all:
 clean:
 	@$(MAKE) -C $(GRPC_SRVR_DIR) clean
 
-# regenerate all of the proto stuff
-.PHONY: pb
-pb:
-	bash $(PROTO_DIR)/protoc-go.sh $(ROOT_DIR)
+## regenerate all of the proto stuff
+#.PHONY: pb
+#pb:
+#	bash $(PROTO_DIR)/protoc-go.sh $(ROOT_DIR)

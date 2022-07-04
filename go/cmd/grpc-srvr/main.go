@@ -9,14 +9,15 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	attributev1 "github.com/mikedonnici/mono/gen/attribute/v1"
-	statusv1 "github.com/mikedonnici/mono/gen/status/v1"
+	statuspbv1 "github.com/mikedonnici/mono/internal/status/pb/v1"
+
 	"github.com/mikedonnici/mono/internal/attribute"
+	attributepbv1 "github.com/mikedonnici/mono/internal/attribute/pb/v1"
 	"github.com/mikedonnici/mono/internal/status"
 	"github.com/mikedonnici/mono/pkg/datastore"
 )
 
-// store keys identify specific database connections that exist within a store
+// store keys identify specific database connections in the store
 const (
 	mongo1 = "mongo-1"
 	mysql1 = "mysql-1"
@@ -64,8 +65,8 @@ func run(cfg config) error {
 	s := grpc.NewServer()
 
 	// Register the GRPC services
-	attributev1.RegisterAttributeServiceServer(s, &srvr)
-	statusv1.RegisterStatusServiceServer(s, &srvr)
+	attributepbv1.RegisterAttributeServiceServer(s, &srvr)
+	statuspbv1.RegisterStatusServiceServer(s, &srvr)
 
 	// Register reflection service on gRPC server.
 	reflection.Register(s)

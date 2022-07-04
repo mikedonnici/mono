@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Copying generated python to corresponding package..."
+echo "Copying generated Python code to corresponding package..."
 
 for N in ./gen/*/; do
   if [ -d "${N}" ]; then

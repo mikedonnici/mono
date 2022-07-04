@@ -21,3 +21,5 @@ clean:
 pb:
 	buf lint
 	buf generate
+	cd go && bash gen-to-pkg.sh && cd ..
+	cd py && bash gen-to-pkg.sh && cd ..

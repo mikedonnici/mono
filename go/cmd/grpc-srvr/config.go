@@ -14,12 +14,12 @@ const (
 
 // config contains all required configuration values
 type config struct {
+	serviceName string // no real purpose
 	grpcPort    int
 	mongoDSN    string // mongodb://host:port
 	mysqlDSN    string // user:pass@tcp(host:port)/dbname
 	postgresDSN string // postgres://user:pass@host:port/dbname?sslmode=disable
 	redisDSN    string // redis://user:pass@host:port/[dbnumber]
-	serviceName string // servers no real purpose
 	errors      []error
 }
 
