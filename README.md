@@ -179,12 +179,19 @@ There are infinite ways to do CI/CD, so these are ideas for using GitHub actions
 - All updates to `main` should be deployed immediately to `dev`, which is always using `latest` images.
 - Other deployments are triggered with tags [WIP]
 
-## Todo
+## App Todo
 
 - [x] Set up basic structure
 - [x] Add db connectors
 - [x] Add `buf` for proto buf management
 - [x] Generate updated code for Go (server) and Python (client) packages
+- [ ] Basic web app for login -> Auth0 (direct or via api?)
+- [ ] Add auth interceptor to grpc-srvc (JWT or PASETO)
+- [ ] Add some 'real' sample data, eg CDMS products to redis
+- [ ] Add sample services, eg fuzzy match product name, ProductIsFertiliser() etc
+ 
+## CI/CD Todo
+
 - [x] Run locally with `docker-compose`
 - [x] GitHub actions to test and build images
 - [x] Publish to Google Artifacts Registry
