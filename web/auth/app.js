@@ -9,7 +9,7 @@ const login = async (targetUrl) => {
         console.log("Logging in", targetUrl);
 
         const options = {
-            redirect_uri: window.location.origin
+            redirect_uri: "https://mono-login.vercel.app/success.html"
         };
 
         if (targetUrl) {
