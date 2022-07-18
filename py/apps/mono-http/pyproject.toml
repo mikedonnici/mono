@@ -7,12 +7,14 @@ authors = ["Mike Donnici <michael.donnici@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 fastapi = "^0.73.0"
-uvicorn = "^0.17.0"
 grpcio = "^1.43.0"
 
-attributev1 = { path = "../../pkg/attributev1" }
-statusv1 = { path = "../../pkg/statusv1" }
+attribute = { path = "../../pkg/attribute" }
+status = { path = "../../pkg/status" }
 protobuf = "^3.19.4"
+Authlib = "^1.0.1"
+Flask = "^2.1.3"
+gunicorn = "^20.1.0"
 
 
 [tool.poetry.dev-dependencies]

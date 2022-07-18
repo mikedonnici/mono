@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "statusv1"
+name = "status"
 version = "0.1.0"
 description = ""
 authors = ["Mike Donnici <michael.donnici@gmail.com>"]

@@ -9,11 +9,10 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	statuspbv1 "github.com/mikedonnici/mono/internal/status/pb/v1"
-
 	"github.com/mikedonnici/mono/internal/attribute"
 	attributepbv1 "github.com/mikedonnici/mono/internal/attribute/pb/v1"
 	"github.com/mikedonnici/mono/internal/status"
+	statuspbv1 "github.com/mikedonnici/mono/internal/status/pb/v1"
 	"github.com/mikedonnici/mono/pkg/datastore"
 )
 

@@ -1,4 +1,4 @@
 
 
 run:
-	uvicorn mono_http.main:app --reload
+	gunicorn -w 4 mono_http.main:app --reload

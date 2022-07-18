@@ -1,4 +1,4 @@
-from statusv1 import __version__
+from attribute import __version__
 
 
 def test_version():

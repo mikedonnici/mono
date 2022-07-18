@@ -12,11 +12,11 @@ for N in ./gen/*/; do
         version=$(basename "$V")
         pkg="$name$version"
         source_dir="./gen/$name/$version"
-        target_dir="./pkg/$pkg/$pkg"
+        target_dir="./pkg/$name/$name/"
 
         if [ -d "$target_dir" ]; then
           echo "copying all from $source_dir -> $target_dir"
-          cp -r "$source_dir"/*.py "$target_dir"
+          cp -r "$source_dir" "$target_dir"
         else
           echo "no target dir $target_dir - might need to create the python package first"
         fi
