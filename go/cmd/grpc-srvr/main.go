@@ -47,13 +47,13 @@ func run(cfg config) error {
 	// Set up all the store managers - in this case we're just using a single store for each manager
 	// but a separate store, each with its own set of database connections, could be supplied to each manager.
 	store := datastore.New()
-	if err := store.AddMongoConnection(mongo1, cfg.mongoDSN, "test"); err != nil {
-		return fmt.Errorf("failed to add connection for key %s: %w", mongo1, err)
-	}
-
-	if err := store.AddMySQLConnection(mysql1, cfg.mysqlDSN); err != nil {
-		return fmt.Errorf("failed to add connection for key %s: %w", mysql1, err)
-	}
+	//if err := store.AddMongoConnection(mongo1, cfg.mongoDSN, "test"); err != nil {
+	//	return fmt.Errorf("failed to add connection for key %s: %w", mongo1, err)
+	//}
+	//
+	//if err := store.AddMySQLConnection(mysql1, cfg.mysqlDSN); err != nil {
+	//	return fmt.Errorf("failed to add connection for key %s: %w", mysql1, err)
+	//}
 
 	// Server with all the managers attached
 	srvr := server{
