@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package user.v1;
+
+// UserMessage represents a User.
+// This is the shape of the data artifact that will move across the API boundary.
+message UserMessage {
+  int64 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+}
+
+// FetchUserByIDRequest is for fetching a user by unique id.
+message FetchUserByIDRequest {
+  int64 id = 1;
+}
+
+// FetchUserByIDResponse contains User data.
+message FetchUserByIDResponse {
+  UserMessage user = 1;
+}
+
+// UserService defines a set of services for managing user data.
+service UserService {
+  rpc FetchUserByID(FetchUserByIDRequest) returns (FetchUserByIDResponse) {};
+}

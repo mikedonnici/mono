@@ -14,19 +14,17 @@ const (
 
 // config contains all required configuration values
 type config struct {
-	serviceName string // no real purpose
-	grpcPort    int
+	grpcPort int
 	//mongoDSN    string // mongodb://host:port
-	//mysqlDSN    string // user:pass@tcp(host:port)/dbname
+	mysqlDSN string // user:pass@tcp(host:port)/dbname
 	//postgresDSN string // postgres://user:pass@host:port/dbname?sslmode=disable
-	//redisDSN    string // redis://user:pass@host:port/[dbnumber]
-	errors []error
+	redisDSN string // redis://user:pass@host:port/[dbnumber]
+	errors   []error
 }
 
 // Set populates the config value with vars located in the env, or in the specified env file(s) - env takes precedence
 // Override prefix for tests so real env does not create issues.
 func (c *config) Set(prefix string, envFiles ...string) error {
-
 	viper.SetEnvPrefix(prefix)
 	viper.AutomaticEnv()
 
@@ -37,17 +35,16 @@ func (c *config) Set(prefix string, envFiles ...string) error {
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Printf("could not read config file(s) - hopefully values exists in the environment!")
+		log.Printf("no config file(s) in specified, will fall back to env vars")
 	}
 
 	// These .Get calls trigger .AutomaticEnv() which should fetch a value from the environment, if it exists.
 	// An env var has precedence over values from env/cfg files and env vars are expected to have the prefix.
 	c.grpcPort = viper.GetInt("GRPC_PORT")
 	//c.mongoDSN = viper.GetString("MONGO_DSN")
-	//c.mysqlDSN = viper.GetString("MYSQL_DSN")
+	c.mysqlDSN = viper.GetString("MYSQL_DSN")
 	//c.postgresDSN = viper.GetString("POSTGRES_DSN")
-	//c.redisDSN = viper.GetString("REDIS_DSN")
-	c.serviceName = viper.GetString("SERVICE_NAME")
+	c.redisDSN = viper.GetString("REDIS_DSN")
 
 	c.validate()
 	if len(c.errors) > 0 {
@@ -74,7 +71,7 @@ func (c *config) validate() {
 	//if c.postgresDSN == "" {
 	//	c.errors = append(c.errors, fmt.Errorf("POSTGRES_DSN is not set"))
 	//}
-	//if c.redisDSN == "" {
-	//	c.errors = append(c.errors, fmt.Errorf("REDIS_DSN is not set"))
-	//}
+	if c.redisDSN == "" {
+		c.errors = append(c.errors, fmt.Errorf("REDIS_DSN is not set"))
+	}
 }

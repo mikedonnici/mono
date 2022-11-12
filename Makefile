@@ -18,8 +18,14 @@ all:
 clean:
 	$(GO_MAKE) clean
 
-pb:
+pb-gen:
 	buf lint
 	buf generate
+
+pb-go: pb-gen
 	cd go && bash gen-to-pkg.sh && cd ..
+
+pb-py: pb-gen
 	cd py && bash gen-to-pkg.sh && cd ..
+
+pb-all: pb-gen pb-go pb-py

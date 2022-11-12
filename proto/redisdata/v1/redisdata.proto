@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package redisdata.v1;
+
+// DataMessage represents data from redis
+message DataMessage {
+  int64 id = 1;
+  string value = 2;
+}
+
+// FetchDataRequest
+message FetchDataRequest {
+  int64 id = 1;
+}
+
+// FetchDataResponse
+message FetchDataResponse{
+  DataMessage data = 1;
+}
+
+service RedisDataService {
+  rpc FetchData(FetchDataRequest) returns (FetchDataResponse) {};
+}
+

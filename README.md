@@ -142,14 +142,14 @@ status.StatusService
 - Example gRPC requests:
 
 ```shell
-grpcurl --plaintext localhost:50051 status.StatusService/FetchStatus
+grpcurl --plaintext localhost:50051 status.v1.StatusService/FetchStatus
 {
   "healthy": true
 }
 ```
 
 ```shell
-grpcurl -d '{"id": 1}' -plaintext localhost:50051 attribute.AttributeService.FetchAttribute
+grpcurl -d '{"id": 1}' -plaintext localhost:50051 attribute.v1.AttributeService.FetchAttribute
 {
   "attribute": {
     "id": "1",
@@ -158,6 +158,21 @@ grpcurl -d '{"id": 1}' -plaintext localhost:50051 attribute.AttributeService.Fet
   }
 }
 ```
+
+**Cloud Run**
+
+Note that when deploying to Google CloudRun the exposed port is TLS `:443` so to hit with `grpcurl`
+
+```shell
+grpcurl grpc-srvr-hdx3p3rbyq-uc.a.run.app:443 list
+```
+
+This is because [Google Front End](https://cloud.google.com/docs/security/infrastructure/design#google_front_end_service)
+service controls inflow of traffic, and it only exposes port 80 and 443.
+
+
+
+
 
 ## CI / CD
 

@@ -2,6 +2,9 @@
 
 ## Configuration
 
+- `config.go` should specify all configuration values required to run the application
+- `config_test.go` can be used to test the configuration itself (redundant?) 
+
 - Configuration can be read from env vars or from a config file
 - To specify a config file pass `-cfg /path/to/file`
 - Sample config file:
@@ -22,7 +25,7 @@ export MONO_SERVICE_NAME="My Service"
 
 ## Running
 
-- Start with make, use `ARGS=...` to pass cfg file flag, eg:
+- To start with `make` use `ARGS=...` to pass cfg file flag, eg:
 
 ```shell
 make run ARGS="-cfg testdata/sample.cfg"
