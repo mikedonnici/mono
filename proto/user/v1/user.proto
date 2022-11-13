@@ -11,17 +11,18 @@ message UserMessage {
   string email = 4;
 }
 
-// FetchUserByIDRequest is for fetching a user by unique id.
-message FetchUserByIDRequest {
-  int64 id = 1;
+// FetchUserRequest specifies either an id or email for fetching a user
+message FetchUserRequest {
+  optional int64 id = 1;
+  optional string email = 2;
 }
 
-// FetchUserByIDResponse contains User data.
-message FetchUserByIDResponse {
+// FetchUserResponse contains User data.
+message FetchUserResponse {
   UserMessage user = 1;
 }
 
 // UserService defines a set of services for managing user data.
 service UserService {
-  rpc FetchUserByID(FetchUserByIDRequest) returns (FetchUserByIDResponse) {};
+  rpc FetchUser(FetchUserRequest) returns (FetchUserResponse) {};
 }

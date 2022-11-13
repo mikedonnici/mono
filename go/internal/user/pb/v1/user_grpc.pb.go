@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	FetchUserByID(ctx context.Context, in *FetchUserByIDRequest, opts ...grpc.CallOption) (*FetchUserByIDResponse, error)
+	FetchUser(ctx context.Context, in *FetchUserRequest, opts ...grpc.CallOption) (*FetchUserResponse, error)
 }
 
 type userServiceClient struct {
@@ -29,9 +29,9 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
-func (c *userServiceClient) FetchUserByID(ctx context.Context, in *FetchUserByIDRequest, opts ...grpc.CallOption) (*FetchUserByIDResponse, error) {
-	out := new(FetchUserByIDResponse)
-	err := c.cc.Invoke(ctx, "/user.v1.UserService/FetchUserByID", in, out, opts...)
+func (c *userServiceClient) FetchUser(ctx context.Context, in *FetchUserRequest, opts ...grpc.CallOption) (*FetchUserResponse, error) {
+	out := new(FetchUserResponse)
+	err := c.cc.Invoke(ctx, "/user.v1.UserService/FetchUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -42,15 +42,15 @@ func (c *userServiceClient) FetchUserByID(ctx context.Context, in *FetchUserByID
 // All implementations should embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
-	FetchUserByID(context.Context, *FetchUserByIDRequest) (*FetchUserByIDResponse, error)
+	FetchUser(context.Context, *FetchUserRequest) (*FetchUserResponse, error)
 }
 
 // UnimplementedUserServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedUserServiceServer struct {
 }
 
-func (UnimplementedUserServiceServer) FetchUserByID(context.Context, *FetchUserByIDRequest) (*FetchUserByIDResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FetchUserByID not implemented")
+func (UnimplementedUserServiceServer) FetchUser(context.Context, *FetchUserRequest) (*FetchUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FetchUser not implemented")
 }
 
 // UnsafeUserServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -64,20 +64,20 @@ func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
 	s.RegisterService(&UserService_ServiceDesc, srv)
 }
 
-func _UserService_FetchUserByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FetchUserByIDRequest)
+func _UserService_FetchUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FetchUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).FetchUserByID(ctx, in)
+		return srv.(UserServiceServer).FetchUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user.v1.UserService/FetchUserByID",
+		FullMethod: "/user.v1.UserService/FetchUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FetchUserByID(ctx, req.(*FetchUserByIDRequest))
+		return srv.(UserServiceServer).FetchUser(ctx, req.(*FetchUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -90,8 +90,8 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "FetchUserByID",
-			Handler:    _UserService_FetchUserByID_Handler,
+			MethodName: "FetchUser",
+			Handler:    _UserService_FetchUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

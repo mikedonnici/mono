@@ -34,7 +34,26 @@ func (m Manager) UserByID(ctx context.Context, id int64) (*User, error) {
 	case err == sql.ErrNoRows:
 		return nil, fmt.Errorf("no user with id %d", id)
 	case err != nil:
-		return nil, fmt.Errorf("query error: %v", err)
+		return nil, fmt.Errorf("query error: %w", err)
+	}
+	return &u, nil
+}
+
+// UserByEmail fetches a user by email
+func (m Manager) UserByEmail(ctx context.Context, email string) (*User, error) {
+	db, err := m.store.OnlyMySQLConnection()
+	if err != nil {
+		return nil, fmt.Errorf("conn err = %w", err)
+	}
+
+	var u User
+	q := "SELECT id, firstname, lastname, email FROM user WHERE email = ?"
+	err = db.QueryRowContext(ctx, q, email).Scan(&u.ID, &u.FirstName, &u.LastName, &u.Email)
+	switch {
+	case err == sql.ErrNoRows:
+		return nil, fmt.Errorf("no user with email %s", email)
+	case err != nil:
+		return nil, fmt.Errorf("query error: %w", err)
 	}
 	return &u, nil
 }
