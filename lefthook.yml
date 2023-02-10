@@ -1,0 +1,30 @@
+pre-commit:
+  parallel: true
+  commands:
+  #    gofmt:
+  #      tags: backend style
+  #      files: git ls-files -m
+  #      glob: "*.go"
+  #      run: go fmt {files}
+  #    golint:
+  #      tags: backend style
+  #      files: git ls-files -m
+  #      glob: "*.go"
+  #      run: golint {files}
+  #    go
+  pre-commit-msg-go-lint:
+    tags: build
+    # NOTE: quicker to do the filtering here as opposed to using golangci-lint run --new=true...
+    files: git diff --name-only HEAD
+    glob: "*.go"
+    run: golangci-lint run --timeout 2m --verbose {files}
+    pre-commit-msg-shellcheck:
+      tags: build
+      files: git diff --name-only HEAD
+      glob: "*.sh"
+      run: shellcheck {files}
+#    pre-commit-msg-dockerfile-lint:
+#      tags: build
+#      files: git diff --name-only HEAD
+#      glob: "*Dockerfile"
+#      run: hadolint {files}

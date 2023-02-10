@@ -28,6 +28,7 @@ A mono repo for a set of related services with a gRPC backend service providing 
 
 ## Requirements
 
+- [hermit](https://cashapp.github.io/hermit/usage/get-started/) - for managing shell environments
 - [buf](https://docs.buf.build/installation) - for managing proto files and code generation
 - [Docker](https://docs.docker.com/get-docker/) - for building docker images and running integration tests 
 - [Go](https://go.dev/doc/install) - for running Go things
