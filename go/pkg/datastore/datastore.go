@@ -3,40 +3,70 @@ package datastore
 
 import (
 	"fmt"
-	"log"
+	"time"
+
+	"github.com/mikedonnici/mono/pkg/retry"
+)
+
+const (
+	defaultConnectRetries     = 5
+	defaultConnectWaitSeconds = 2
 )
 
 // Connections represents connections to various platform services, most likely databases.
 type Connections struct {
-	Mongo    map[string]*mongoConnection
-	MySQL    map[string]*mysqlConnection
-	Postgres map[string]*postgresConnection
-	Redis    map[string]*redisConnection
+	Mongo    map[string]*MongoConnection
+	MySQL    map[string]*MySQLConnection
+	Postgres map[string]*PostgresConnection
+	Redis    map[string]*RedisConnection
+	Retry    *retry.Attempts
 }
 
 // New returns a pointer to a Connections value no connections attached.
 func New() *Connections {
 	return &Connections{
-		Mongo:    make(map[string]*mongoConnection),
-		MySQL:    make(map[string]*mysqlConnection),
-		Postgres: make(map[string]*postgresConnection),
-		Redis:    make(map[string]*redisConnection),
+		Mongo:    make(map[string]*MongoConnection),
+		MySQL:    make(map[string]*MySQLConnection),
+		Postgres: make(map[string]*PostgresConnection),
+		Redis:    make(map[string]*RedisConnection),
+	}
+}
+
+// NewWithRetries returns a pointer to a Connections value with the specified number of retries and wait time.
+func NewWithRetries(retries uint, wait time.Duration) *Connections {
+	return &Connections{
+		Mongo:    make(map[string]*MongoConnection),
+		MySQL:    make(map[string]*MySQLConnection),
+		Postgres: make(map[string]*PostgresConnection),
+		Redis:    make(map[string]*RedisConnection),
+		Retry:    retry.CountWithWait(retries, wait),
+	}
+}
+
+// ensureRetries ensures that the Retry field is not nil.
+func (mc *Connections) ensureRetries() {
+	if mc.Retry == nil {
+		mc.Retry = retry.CountWithWait(defaultConnectRetries, defaultConnectWaitSeconds*time.Second)
 	}
 }
 
 // AddMongoConnection adds a connection to a mongo database identified by the specified key.
 func (mc *Connections) AddMongoConnection(key, dsn, db string) error {
-	log.Printf("Adding MONGO connection: key = '%s', db = '%s'", key, db)
-	c, err := connectMongo(dsn, db)
-	if err != nil {
-		return fmt.Errorf("could not connect to mongo, err = %w", err)
+	mc.ensureRetries()
+	var err error
+	var c *MongoConnection
+	for mc.Retry.Next() {
+		c, err = connectMongo(dsn, db)
+		if err == nil {
+			mc.Mongo[key] = c
+			break
+		}
 	}
-	mc.Mongo[key] = c
-	return nil
+	return err
 }
 
 // MongoConnByKey returns the mongodb connection value at the specified key.
-func (mc *Connections) MongoConnByKey(key string) (*mongoConnection, error) {
+func (mc *Connections) MongoConnByKey(key string) (*MongoConnection, error) {
 	c, ok := mc.Mongo[key]
 	if !ok {
 		return nil, fmt.Errorf("no mongodb connection with key = %s", key)
@@ -45,7 +75,7 @@ func (mc *Connections) MongoConnByKey(key string) (*mongoConnection, error) {
 }
 
 // OnlyMongoConnection is a convenience function that returns the Mongo connection if there is only one.
-func (mc *Connections) OnlyMongoConnection() (*mongoConnection, error) {
+func (mc *Connections) OnlyMongoConnection() (*MongoConnection, error) {
 	num := len(mc.Mongo)
 	if num != 1 {
 		return nil, fmt.Errorf("cannot return unique mongo connection as %d exist", num)
@@ -59,17 +89,21 @@ func (mc *Connections) OnlyMongoConnection() (*mongoConnection, error) {
 
 // AddMySQLConnection adds a connection to a mysql database identified by the specified key.
 func (mc *Connections) AddMySQLConnection(key, dsn string) error {
-	log.Printf("Adding MYSQL connection: key = '%s'", key)
-	c, err := connectMySQL(dsn)
-	if err != nil {
-		return fmt.Errorf("could not connect to MySQL, err = %w", err)
+	mc.ensureRetries()
+	var err error
+	var c *MySQLConnection
+	for mc.Retry.Next() {
+		c, err = connectMySQL(dsn)
+		if err == nil {
+			mc.MySQL[key] = c
+			break
+		}
 	}
-	mc.MySQL[key] = c
-	return nil
+	return err
 }
 
 // MySQLConnByKey returns the MySQL connection value at the specified key.
-func (mc *Connections) MySQLConnByKey(key string) (*mysqlConnection, error) {
+func (mc *Connections) MySQLConnByKey(key string) (*MySQLConnection, error) {
 	c, ok := mc.MySQL[key]
 	if !ok {
 		return nil, fmt.Errorf("no MySQL db connection with key = %s", key)
@@ -78,7 +112,7 @@ func (mc *Connections) MySQLConnByKey(key string) (*mysqlConnection, error) {
 }
 
 // OnlyMySQLConnection is a convenience function that returns the MySQL connection if there is only one.
-func (mc *Connections) OnlyMySQLConnection() (*mysqlConnection, error) {
+func (mc *Connections) OnlyMySQLConnection() (*MySQLConnection, error) {
 	num := len(mc.MySQL)
 	if num != 1 {
 		return nil, fmt.Errorf("cannot return unique MySQL connection as %d exist", num)
@@ -92,17 +126,21 @@ func (mc *Connections) OnlyMySQLConnection() (*mysqlConnection, error) {
 
 // AddPostgresConnection adds a connection to a potsgres database identified by the specified key.
 func (mc *Connections) AddPostgresConnection(key, dsn string) error {
-	log.Printf("Adding POSTRES connection: key = '%s'", key)
-	c, err := connectPostgres(dsn)
-	if err != nil {
-		return fmt.Errorf("could not connect to postgres, err = %w", err)
+	mc.ensureRetries()
+	var err error
+	var c *PostgresConnection
+	for mc.Retry.Next() {
+		c, err = connectPostgres(dsn)
+		if err == nil {
+			mc.Postgres[key] = c
+			break
+		}
 	}
-	mc.Postgres[key] = c
-	return nil
+	return err
 }
 
 // PostgresConnByKey returns the postgres connection value at the specified key.
-func (mc *Connections) PostgresConnByKey(key string) (*postgresConnection, error) {
+func (mc *Connections) PostgresConnByKey(key string) (*PostgresConnection, error) {
 	c, ok := mc.Postgres[key]
 	if !ok {
 		return nil, fmt.Errorf("no postgresdb connection with key = %s", key)
@@ -111,7 +149,7 @@ func (mc *Connections) PostgresConnByKey(key string) (*postgresConnection, error
 }
 
 // OnlyPostgresConnection is a convenience function that returns the Postgres connection if there is only one.
-func (mc *Connections) OnlyPostgresConnection() (*postgresConnection, error) {
+func (mc *Connections) OnlyPostgresConnection() (*PostgresConnection, error) {
 	num := len(mc.Postgres)
 	if num != 1 {
 		return nil, fmt.Errorf("cannot return unique postgres connection as %d exist", num)
@@ -125,17 +163,21 @@ func (mc *Connections) OnlyPostgresConnection() (*postgresConnection, error) {
 
 // AddRedisConnection adds a connection to a redis database identified by the specified key.
 func (mc *Connections) AddRedisConnection(key, dsn string, timeoutSeconds int) error {
-	log.Printf("Adding REDIS connection: key = '%s'", key)
-	c, err := connectRedis(dsn, timeoutSeconds)
-	if err != nil {
-		return fmt.Errorf("could not connect to Redis, err = %w", err)
+	mc.ensureRetries()
+	var err error
+	var c *RedisConnection
+	for mc.Retry.Next() {
+		c, err = connectRedis(dsn, timeoutSeconds)
+		if err == nil {
+			mc.Redis[key] = c
+			break
+		}
 	}
-	mc.Redis[key] = c
-	return nil
+	return err
 }
 
 // RedisConnByKey returns the Redis connection value at the specified key.
-func (mc *Connections) RedisConnByKey(key string) (*redisConnection, error) {
+func (mc *Connections) RedisConnByKey(key string) (*RedisConnection, error) {
 	c, ok := mc.Redis[key]
 	if !ok {
 		return nil, fmt.Errorf("no Redisdb connection with key = %s", key)
@@ -144,7 +186,7 @@ func (mc *Connections) RedisConnByKey(key string) (*redisConnection, error) {
 }
 
 // OnlyRedisConnection is a convenience function that returns the Redis connection if there is only one.
-func (mc *Connections) OnlyRedisConnection() (*redisConnection, error) {
+func (mc *Connections) OnlyRedisConnection() (*RedisConnection, error) {
 	num := len(mc.Redis)
 	if num != 1 {
 		return nil, fmt.Errorf("cannot return unique Redis connection as %d exist", num)

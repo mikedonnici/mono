@@ -2,6 +2,7 @@ package datastore_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/mikedonnici/mono/pkg/datastore"
 )
@@ -22,7 +23,6 @@ const (
 )
 
 func TestPlatform(t *testing.T) {
-
 	t.Run("tests", func(t *testing.T) {
 		t.Run("testAddMongoConnection", testAddMongoConnection)
 		t.Run("testAddMySQLConnection", testAddMySQLConnection)
@@ -32,7 +32,6 @@ func TestPlatform(t *testing.T) {
 }
 
 func testAddMongoConnection(t *testing.T) {
-
 	cases := []struct {
 		dsn string
 		key string
@@ -43,14 +42,12 @@ func testAddMongoConnection(t *testing.T) {
 		{mongoDSN2, "mongo-3", "db-3"}, // first conn to second server
 		{mongoDSN2, "mongo-4", "db-4"}, // second conn to second server
 	}
-
-	conns := datastore.New()
+	conns := datastore.NewWithRetries(5, 1*time.Second)
 	for _, c := range cases {
 		if err := conns.AddMongoConnection(c.key, c.dsn, c.db); err != nil {
 			t.Fatalf(".AddMongoConnection(%s, %s, %s) err = %s", c.key, c.dsn, c.db, err)
 		}
 	}
-
 	// Check number of connections
 	want := 4
 	got := len(conns.Mongo)
@@ -60,7 +57,6 @@ func testAddMongoConnection(t *testing.T) {
 }
 
 func testAddMySQLConnection(t *testing.T) {
-
 	cases := []struct {
 		dsn string
 		key string
@@ -71,7 +67,7 @@ func testAddMySQLConnection(t *testing.T) {
 		{mysqlDSN2, "mysql-4"}, // second conn to second server
 	}
 
-	conns := datastore.New()
+	conns := datastore.NewWithRetries(5, 1*time.Second)
 	for _, c := range cases {
 		if err := conns.AddMySQLConnection(c.key, c.dsn); err != nil {
 			t.Fatalf(".AddMySQLConnection(%s, %s) err = %s", c.key, c.dsn, err)
@@ -87,7 +83,6 @@ func testAddMySQLConnection(t *testing.T) {
 }
 
 func testAddPostgresConnection(t *testing.T) {
-
 	cases := []struct {
 		dsn string
 		key string
@@ -98,7 +93,7 @@ func testAddPostgresConnection(t *testing.T) {
 		{postgresDSN2, "postgres-4"}, // second conn to second server
 	}
 
-	conns := datastore.New()
+	conns := datastore.NewWithRetries(5, 1*time.Second)
 	for _, c := range cases {
 		if err := conns.AddPostgresConnection(c.key, c.dsn); err != nil {
 			t.Fatalf(".AddPostgresConnection(%s, %s) err = %s", c.key, c.dsn, err)
@@ -114,14 +109,13 @@ func testAddPostgresConnection(t *testing.T) {
 }
 
 func testAddRedisConnection(t *testing.T) {
-
 	cases := []struct {
 		dsn string
 		key string
 	}{
 		{redisDSN, "redis-1"},
 	}
-	conns := datastore.New()
+	conns := datastore.NewWithRetries(5, 1*time.Second)
 	for _, c := range cases {
 		if err := conns.AddRedisConnection(c.key, c.dsn, timeoutSecs); err != nil {
 			t.Fatalf(".AddRedisConnection(%s, %s) err = %s", c.key, c.dsn, err)

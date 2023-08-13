@@ -14,9 +14,10 @@ vet: fmt
 .PHONY:vet
 
 test: vet
-	docker-compose -f docker-compose.test.yml up --detach
+	docker compose -f compose.test.yml down
+	docker compose -f compose.test.yml up --detach
 	go test -v ./...
-	docker-compose -f docker-compose.test.yml down --volume
+	docker compose -f compose.test.yml down
 
 clean:
 	go clean

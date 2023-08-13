@@ -10,17 +10,17 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-type mongoConnection struct {
+type MongoConnection struct {
 	dsn string
 	*mongo.Client
 	*mongo.Database
 }
 
 // newMongoConnection returns a new MongoDB connection which includes the client and a database handle.
-func newMongoConnection(dsn, dbname string) (*mongoConnection, error) {
+func newMongoConnection(dsn, dbname string) (*MongoConnection, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	conn := mongoConnection{
+	conn := MongoConnection{
 		dsn:    dsn,
 		Client: nil,
 	}
@@ -38,13 +38,13 @@ func newMongoConnection(dsn, dbname string) (*mongoConnection, error) {
 }
 
 // connectMongo returns a mongodb connection or an error.
-func connectMongo(dsn, db string) (*mongoConnection, error) {
+func connectMongo(dsn, db string) (*MongoConnection, error) {
 	return newMongoConnection(dsn, db)
 }
 
 // Check verifies the connection to the database and returns an error if there's a problem.
 // Note: This is better than ping because it forces a round trip to the database.
-func (c *mongoConnection) Check() error {
+func (c *MongoConnection) Check() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	return c.Ping(ctx, readpref.Primary())

@@ -8,13 +8,13 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-type redisConnection struct {
+type RedisConnection struct {
 	conn *redis.Client
 }
 
-// newRedisConnection returns a redisConnection value
+// newRedisConnection returns a RedisConnection value
 // dns format: redis://<user>:<pass>@localhost:6379/<db>
-func newRedisConnection(dsn string, timeoutSeconds int) (*redisConnection, error) {
+func newRedisConnection(dsn string, timeoutSeconds int) (*RedisConnection, error) {
 
 	opt, err := redis.ParseURL(dsn)
 	if err != nil {
@@ -28,5 +28,5 @@ func newRedisConnection(dsn string, timeoutSeconds int) (*redisConnection, error
 
 		return nil, fmt.Errorf("could not ping redis server: %w", err)
 	}
-	return &redisConnection{conn: cl}, nil
+	return &RedisConnection{conn: cl}, nil
 }

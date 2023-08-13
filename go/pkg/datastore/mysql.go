@@ -7,15 +7,14 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type mysqlConnection struct {
+type MySQLConnection struct {
 	DSN string
 	*sql.DB
 }
 
-// newMySQLConnection returns a pointer to a mysqlConnection with an established
-// db session, or an error.
-func newMySQLConnection(dsn string) (*mysqlConnection, error) {
-	conn := mysqlConnection{
+// newMySQLConnection returns a pointer to a MySQLConnection with an established db session, or an error.
+func newMySQLConnection(dsn string) (*MySQLConnection, error) {
+	conn := MySQLConnection{
 		DSN: dsn,
 		DB:  nil,
 	}
@@ -31,18 +30,18 @@ func newMySQLConnection(dsn string) (*mysqlConnection, error) {
 }
 
 // connectMySQL returns a mysql connection or an error.
-func connectMySQL(dsn string) (*mysqlConnection, error) {
+func connectMySQL(dsn string) (*MySQLConnection, error) {
 	return newMySQLConnection(dsn)
 }
 
 // open returns a connection to the database or an error.
-func (c *mysqlConnection) open() (*sql.DB, error) {
+func (c *MySQLConnection) open() (*sql.DB, error) {
 	return sql.Open("mysql", c.DSN)
 }
 
 // Check verifies the connection to the database and returns an error if there's a problem.
 // Note: This is better than ping because it forces a round trip to the database.
-func (c *mysqlConnection) Check() error {
+func (c *MySQLConnection) Check() error {
 	var tmp bool
 	return c.DB.QueryRow(`SELECT true`).Scan(&tmp)
 }

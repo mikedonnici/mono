@@ -7,15 +7,15 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type postgresConnection struct {
+type PostgresConnection struct {
 	DSN string
 	*sql.DB
 }
 
-// newPostgresConnection returns a pointer to a postgresConnection with an established
+// newPostgresConnection returns a pointer to a PostgresConnection with an established
 // db session, or an error.
-func newPostgresConnection(dsn string) (*postgresConnection, error) {
-	conn := postgresConnection{
+func newPostgresConnection(dsn string) (*PostgresConnection, error) {
+	conn := PostgresConnection{
 		DSN: dsn,
 		DB:  nil,
 	}
@@ -31,35 +31,35 @@ func newPostgresConnection(dsn string) (*postgresConnection, error) {
 }
 
 // connectPostgres returns a postgres connection or an error.
-func connectPostgres(dsn string) (*postgresConnection, error) {
+func connectPostgres(dsn string) (*PostgresConnection, error) {
 	return newPostgresConnection(dsn)
 }
 
 // open returns a connection to the database or an error.
-func (c *postgresConnection) open() (*sql.DB, error) {
+func (c *PostgresConnection) open() (*sql.DB, error) {
 	return sql.Open("postgres", c.DSN)
 }
 
 // Check verifies the connection to the database and returns an error if there's a problem.
 // Note: This is better than ping because it forces a round trip to the database.
-func (c *postgresConnection) Check() error {
+func (c *PostgresConnection) Check() error {
 	var tmp bool
 	return c.DB.QueryRow(`SELECT true`).Scan(&tmp)
 }
 
 // connectRedis returns a redis connection or an error.
-func connectRedis(dsn string, timeoutSeconds int) (*redisConnection, error) {
+func connectRedis(dsn string, timeoutSeconds int) (*RedisConnection, error) {
 	return newRedisConnection(dsn, timeoutSeconds)
 }
 
-//// open returns a connection to the database or an error.
-//func (c *postgresConnection) open() (*sql.DB, error) {
+// // open returns a connection to the database or an error.
+// func (c *postgresConnection) open() (*sql.DB, error) {
 //	return sql.Open("postgres", c.DSN)
-//}
+// }
 //
-//// Check verifies the connection to the database and returns an error if there's a problem.
-//// Note: This is better than ping because it forces a round trip to the database.
-//func (c *postgresConnection) Check() error {
+// // Check verifies the connection to the database and returns an error if there's a problem.
+// // Note: This is better than ping because it forces a round trip to the database.
+// func (c *postgresConnection) Check() error {
 //	var tmp bool
 //	return c.DB.QueryRow(`SELECT true`).Scan(&tmp)
-//}
+// }
